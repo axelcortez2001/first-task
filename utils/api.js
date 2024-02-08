@@ -1,9 +1,11 @@
 // utils/api.js
 import Axios from "axios";
 
+const api_url = "https://master.d2jxnxewppnx52.amplifyapp.com";
+
 export const getData = async () => {
   try {
-    const res = await fetch(`https://master.d2jxnxewppnx52.amplifyapp.com`, {
+    const res = await fetch(api_url, {
       cache: "no-store",
     });
     if (!res.ok) {
@@ -18,7 +20,7 @@ export const getData = async () => {
 
 export const addData = async (todo) => {
   try {
-    const res = await fetch("https://master.d2jxnxewppnx52.amplifyapp.com", {
+    const res = await fetch(api_url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(todo),
@@ -32,7 +34,7 @@ export const addData = async (todo) => {
 
 export const delData = async (id) => {
   try {
-    await fetch(`https://master.d2jxnxewppnx52.amplifyapp.com?id=${id}`, {
+    await fetch(`${api_url}?id=${id}`, {
       method: "DELETE",
     });
   } catch (error) {
@@ -42,12 +44,9 @@ export const delData = async (id) => {
 
 export const getSingleTask = async (id) => {
   try {
-    const res = await fetch(
-      `https://master.d2jxnxewppnx52.amplifyapp.com/${id}`,
-      {
-        cache: "no-store",
-      }
-    );
+    const res = await fetch(`${api_url}/${id}`, {
+      cache: "no-store",
+    });
     const todo_data = res.json();
     return todo_data;
   } catch (error) {
@@ -57,14 +56,11 @@ export const getSingleTask = async (id) => {
 
 export const editData = async (id, todo) => {
   try {
-    const res = await fetch(
-      `https://master.d2jxnxewppnx52.amplifyapp.com/${id}`,
-      {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(todo),
-      }
-    );
+    const res = await fetch(`${api_url}/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(todo),
+    });
     if (!res.ok) {
       throw new Error(`HTTP error! Status: ${res.status}`);
     }
