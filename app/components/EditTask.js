@@ -1,24 +1,23 @@
 "use client";
 import { useState } from "react";
 import AddModal from "./AddModal";
-import { useRouter } from "next/navigation";
-import { addData } from "@/utils/api";
+import { CiEdit } from "react-icons/ci";
+import { editData } from "@/utils/api";
 
-const CreateTask = ({ refreshData }) => {
+const EditTask = ({ refreshData, todo }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const date_today = new Date().toLocaleString();
-  const [title, setTitle] = useState();
-  const [description, setDescription] = useState();
-  const stat = "Pending";
-  const router = useRouter();
+  const [new_title, setNewTitle] = useState(todo.title);
+  const [new_description, setNewDescription] = useState(todo.description);
+  const [id, setTid] = useState(todo._id);
 
-  //handler to open/close modal
+  //handler to open modal
   const modalHandler = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  //handler to add a todo data
-  const handleSubmit = async (e) => {
+  //handler updating todo data
+  const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
       if (!title) {
@@ -29,50 +28,46 @@ const CreateTask = ({ refreshData }) => {
         alert("Please input description");
         return;
       }
-      const check_status = await addData({ title, description, stat });
-      if (check_status.message === "ToDo Created") {
-        setDescription("");
-        setTitle("");
-        modalHandler();
-      } else {
-        alert(check_status.message);
-      }
+      await editData(id, { new_title, new_description });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     } finally {
       refreshData();
+      modalHandler();
     }
   };
 
   return (
-    <div className='w-auto p-2'>
+    <div>
       <button
-        className='btn btn-outline btn-primary'
+        className='btn btn-outline btn-info p-2'
         onClick={() => modalHandler()}
       >
-        Create Task
+        <CiEdit size={20} />
       </button>
       {isModalOpen && (
         <AddModal closeModal={modalHandler}>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleEditSubmit}>
             <div className='w-full flex justify-between'>
               <h3 className='font-bold text-lg mb-2'>ToDo New</h3>
               <h3 className=' text-blue-950  text-sm'>{date_today}</h3>
             </div>
             <div className='w-full flex flex-col space-y-3'>
               <input
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                value={new_title}
+                onChange={(e) => setNewTitle(e.target.value)}
                 type='text'
                 placeholder='Input Title'
-                className='input input-bordered input-info w-full max-w-full'
+                className='input input-bordered input-info w-full max-w-full text-gray-950'
+                required
               />
               <textarea
                 type='text'
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                value={new_description}
+                onChange={(e) => setNewDescription(e.target.value)}
                 placeholder='Input Description'
-                className='textarea textarea-bordered textarea-info w-full max-w-full'
+                className='textarea textarea-bordered textarea-info w-full max-w-full text-gray-950'
+                required
               />
             </div>
             <div className='flex justify-end mt-2'>
@@ -87,4 +82,4 @@ const CreateTask = ({ refreshData }) => {
   );
 };
 
-export default CreateTask;
+export default EditTask;

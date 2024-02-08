@@ -1,20 +1,45 @@
-const Filter = () => {
+"use client";
+
+import { useState } from "react";
+const Filter = ({ onFilterChange }) => {
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  //toggle open-close filter
+  const handleFilterToggle = () => {
+    setIsFilterOpen(!isFilterOpen);
+  };
+
+  //pass the filter string to homepage
+  const handleFilterChange = (filter) => {
+    onFilterChange(filter);
+    setIsFilterOpen(!isFilterOpen);
+  };
   return (
     <div className='dropdown dropdown-bottom'>
-      <div tabIndex={0} role='button' className='btn m-1'>
-        Sort
-      </div>
-      <ul
+      <div
         tabIndex={0}
-        className='dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52'
+        role='button'
+        className={`btn m-1 ${isFilterOpen ? "open" : ""}`}
+        onClick={handleFilterToggle}
       >
-        <li>
-          <a>Item 1</a>
-        </li>
-        <li>
-          <a>Item 2</a>
-        </li>
-      </ul>
+        Filter
+      </div>
+      {isFilterOpen && (
+        <ul
+          tabIndex={0}
+          className='dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52'
+        >
+          <li>
+            <a onClick={() => handleFilterChange("All")}>All</a>
+          </li>
+          <li>
+            <a onClick={() => handleFilterChange("Finished")}>Finished</a>
+          </li>
+          <li>
+            <a onClick={() => handleFilterChange("Pending")}>Pending</a>
+          </li>
+        </ul>
+      )}
     </div>
   );
 };
