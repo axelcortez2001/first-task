@@ -3,7 +3,7 @@ import Axios from "axios";
 
 export const getData = async () => {
   try {
-    const res = await fetch(`http://localhost:3000/api/routes`, {
+    const res = await fetch(`https://master.d2jxnxewppnx52.amplifyapp.com`, {
       cache: "no-store",
     });
     if (!res.ok) {
@@ -18,7 +18,7 @@ export const getData = async () => {
 
 export const addData = async (todo) => {
   try {
-    const res = await fetch("http://localhost:3000/api/routes", {
+    const res = await fetch("https://master.d2jxnxewppnx52.amplifyapp.com", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(todo),
@@ -32,7 +32,7 @@ export const addData = async (todo) => {
 
 export const delData = async (id) => {
   try {
-    await fetch(`http://localhost:3000/api/routes?id=${id}`, {
+    await fetch(`https://master.d2jxnxewppnx52.amplifyapp.com?id=${id}`, {
       method: "DELETE",
     });
   } catch (error) {
@@ -42,9 +42,12 @@ export const delData = async (id) => {
 
 export const getSingleTask = async (id) => {
   try {
-    const res = await fetch(`http://localhost:3000/api/routes/${id}`, {
-      cache: "no-store",
-    });
+    const res = await fetch(
+      `https://master.d2jxnxewppnx52.amplifyapp.com/${id}`,
+      {
+        cache: "no-store",
+      }
+    );
     const todo_data = res.json();
     return todo_data;
   } catch (error) {
@@ -54,11 +57,14 @@ export const getSingleTask = async (id) => {
 
 export const editData = async (id, todo) => {
   try {
-    const res = await fetch(`http://localhost:3000/api/routes/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(todo),
-    });
+    const res = await fetch(
+      `https://master.d2jxnxewppnx52.amplifyapp.com/${id}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(todo),
+      }
+    );
     if (!res.ok) {
       throw new Error(`HTTP error! Status: ${res.status}`);
     }
