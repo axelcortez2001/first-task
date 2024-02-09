@@ -20,11 +20,11 @@ const EditTask = ({ refreshData, todo }) => {
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (!title) {
+      if (!new_title) {
         alert("Please input title");
         return;
       }
-      if (!description) {
+      if (!new_description) {
         alert("Please input description");
         return;
       }
