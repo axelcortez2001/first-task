@@ -1,7 +1,7 @@
 // utils/api.js
 import Axios from "axios";
 
-const api_url = "https://master.d2jxnxewppnx52.amplifyapp.com";
+const api_url = "https://master.d2jxnxewppnx52.amplifyapp.com/api/routes";
 
 export const getData = async () => {
   try {
